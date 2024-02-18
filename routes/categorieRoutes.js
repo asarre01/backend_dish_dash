@@ -3,9 +3,8 @@ const Categorie = require('../models/Categorie');
 // Route GET pour récupérer la liste des catégories
 router.get("/Categories/", async (req, res) => {
     try {
-        const listCategories = await Etudiant.find();
-        res.json(listCategories);
-        console.log(`Données récupérées avec succès: ${listCategories}`);
+        const listCategories = await Categorie.find();
+        res.json({msg : `Données récupérées avec succès: ${listCategories}`});
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

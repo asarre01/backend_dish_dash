@@ -5,11 +5,12 @@ const dotenv = require("dotenv");
 const path = require("path");
 const server = express();
 const helmet = require("helmet");
+const { v4: uuidv4 } = require('uuid');
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
 const categorieRoutes = require("./routes/categorieRoutes");
-const userRoutes =  require("./routes/userRoutes");
+const userRoutes = require("./routes/userRoutes");
 
-server.use(express.json()); 
-server.use(helmet());
 // Charger les variables d'environnement depuis le fichier .env dans le dossier config
 dotenv.config({ path: path.join(__dirname, "config", ".env") });
 
@@ -18,6 +19,24 @@ const port = process.env.PORT;
 
 // Stocker l'URI de la base de données MongoDB Atlas dans une variable
 const urlDatabase = process.env.MONGO_URI;
+
+server.use(express.json());
+server.use(helmet());
+server.use(cookieParser());
+
+server.use(
+    session({
+        secret: process.env.SESSION_SECRET, 
+        resave: false,
+        saveUninitialized: true,
+        cookie: { secure: false },
+        genid: function (req) {
+            return uuidv4(); 
+        },
+    })
+);
+
+
 
 // Se connecter à la base de données en utilisant mongoose
 mongoose
@@ -39,4 +58,4 @@ mongoose
     });
 
 // Routes
-server.use('/users', userRoutes);
+server.use("/users", userRoutes);

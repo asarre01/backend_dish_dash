@@ -27,13 +27,19 @@ const userSchema = new Schema({
         type: Array,
         default: [],
     },
-    isAdmin : {
-        type : Boolean,
-        required : true,
-        default: false
-    }
+    isAdmin: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
 });
+
+userSchema.methods.toJSON = function () {
+    const obj = this.toObject();
+    delete obj.password;
+    return obj;
+};
 
 const User = model("User", userSchema);
 
-module.exports = User; 
+module.exports = User;
