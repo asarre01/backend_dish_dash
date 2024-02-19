@@ -5,14 +5,14 @@ const categorieSchema = new Schema({
     nom: {
         type: String,
         required: true,
-        unique :true
+        unique: true,
     },
     description: {
         type: String,
         required: true,
-    }
+    },
 });
 
-const categorie = model("categorie", categorieSchema);
+const Categorie = model("Categorie", categorieSchema);
 
-model.exports = categorie;
+module.exports = Categorie;

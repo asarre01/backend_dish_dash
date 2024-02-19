@@ -42,7 +42,7 @@ const login = async (req, res) => {
     try {
         const { email, tel, password } = req.body;
 
-        const userLogin = await User.findOne({
+        let userLogin = await User.findOne({
             $or: [{ email: email }, { tel: tel }],
         });
 
@@ -60,16 +60,10 @@ const login = async (req, res) => {
 
         const token = jwt.sign({ id: userLogin._id }, process.env.JWT_SECRET);
 
-        delete userLogin.password;
-
         // Stockez les informations de la session et le token dans un cookie
-        req.session.user = userLogin;
+        res.cookie("token", token, { httpOnly: true });
 
-        //res.cookie("token", token, { httpOnly: true });
-
-        return res
-            .status(200)
-            .json({ msg: `Connexion réussie!`, user: userLogin, token });
+        return res.status(200).json({ msg: `Connexion réussie!` });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ msg: "Erreur serveur" });
