@@ -1,26 +1,34 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+// Définition du schéma pour un plat
 const platSchema = new Schema({
     nom: {
         type: String,
         required: true,
-        unique :true
+        unique: true,
     },
     description: {
         type: String,
         required: true,
     },
-    categorie: {
-        type: String,
+    categorieId: {
+        type: Schema.Types.ObjectId,
+        ref: "Categorie", // Référence au modèle Categorie
         required: true,
     },
     prix: {
         type: Number,
         required: true,
+    },
+    cheminImg : {
+        type : String,
+        unique: true,
     }
 });
 
+// Création du modèle Plat basé sur le schéma
 const Plat = model("Plat", platSchema);
 
-model.exports = Plat;
+// Export du modèle Plat
+module.exports = Plat; 

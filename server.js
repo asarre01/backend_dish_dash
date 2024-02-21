@@ -10,6 +10,7 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const categorieRoutes = require("./routes/categorieRoutes");
 const userRoutes = require("./routes/userRoutes");
+const platRoutes = require("./routes/platRoutes");
 const { verifyToken } = require("./middlewares/authMiddlewares");
 
 // Charger les variables d'environnement depuis le fichier .env dans le dossier config
@@ -22,6 +23,7 @@ const port = process.env.PORT;
 const urlDatabase = process.env.MONGO_URI;
 
 server.use(express.json());
+server.use(express.urlencoded({ extended: true }));
 server.use(helmet());
 server.use(cookieParser());
 
@@ -59,3 +61,4 @@ mongoose
 // Routes
 server.use("/users", userRoutes);
 server.use("/categories", verifyToken, categorieRoutes);
+server.use("/plats", verifyToken, platRoutes);

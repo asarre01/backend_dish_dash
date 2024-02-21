@@ -27,6 +27,10 @@ const userSchema = new Schema({
         type: Array,
         default: [],
     },
+    cheminAvatar : {
+        type: String,
+        default: ''
+    },
     isAdmin: {
         type: Boolean,
         required: true,
