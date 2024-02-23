@@ -21,7 +21,7 @@ exports.uploadAvatar = multer({ storage: storageAvatar }).single("image");
 
 const storageImgPlat = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "public/imgPlats"); // Le dossier où les images seront stockées
+        cb(null, "public/imgPlats"); 
     },
     filename: function (req, file, cb) {
         const ext = path.extname(file.originalname);
@@ -32,3 +32,17 @@ const storageImgPlat = multer.diskStorage({
 });
 
 exports.uploadImgPlat = multer({ storage: storageImgPlat }).single("image");
+
+const storageImgCat = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "public/imgCats"); 
+    },
+    filename: function (req, file, cb) {
+        const ext = path.extname(file.originalname);
+        const name = Date.now() + "_" + Math.round(Math.random() * 1e9);
+        const filename = `${name}${ext}`;
+        cb(null, filename);
+    },
+});
+
+exports.uploadImgCat = multer({ storage: storageImgCat }).single("image");

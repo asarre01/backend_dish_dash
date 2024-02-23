@@ -1,5 +1,5 @@
 const User = require("../models/User");
-
+const fs = require("fs-extra")
 exports.getAll = async (req, res) => {
     try {
         // Récupérer la liste des utilisateurs depuis la base de données (excluant le mot de passe)
@@ -69,10 +69,31 @@ exports.deleteUser = async (req, res) => {
         // Supprimer l'utilisateur de la base de données par son identifiant
         const deletedUser = await User.findByIdAndDelete(id);
 
+        if (!deletedUser) {
+            return res.status(404).json({ message: "User non trouvé." });
+        }
+
+        const cheminAvatar = deletedUser.cheminAvatar;
+
+        if (cheminAvatar && deletedUser) {
+            deleteImage(cheminAvatar);
+        }
+
         // Répondre avec l'utilisateur supprimé en format JSON
         res.status(200).json(deletedUser);
     } catch (error) {
         // En cas d'erreur, répondre avec un code 500 (Erreur serveur) et un message d'erreur
         res.status(500).json({ message: error.message });
+    }
+};
+
+
+const deleteImage = async (id) => {
+    try {
+        const dir = `public/profiles/${id}`;
+        await fs.remove(dir);
+        console.log(`delete : ${dir}`);
+    } catch (err) {
+        console.error(err);
     }
 };

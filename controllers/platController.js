@@ -77,7 +77,7 @@ exports.deletePlat = async (req, res) => {
 
         const cheminImg = deletedPlat.cheminImg;
 
-        if (cheminImg) {
+        if (cheminImg && deletedPlat) {
             deleteImage(cheminImg);
         }
 
@@ -93,7 +93,7 @@ const deleteImage = async (id) => {
     try {
         const dir = `public/imgPlats/${id}`;
         await fs.remove(dir);
-        console.log("success!");
+        console.log(`delete : ${dir}`);
     } catch (err) {
         console.error(err);
     }

@@ -27,9 +27,9 @@ const userSchema = new Schema({
         type: Array,
         default: [],
     },
-    cheminAvatar : {
+    cheminAvatar: {
         type: String,
-        default: ''
+        default: "",
     },
     isAdmin: {
         type: Boolean,
@@ -37,8 +37,6 @@ const userSchema = new Schema({
         default: false,
     },
 });
-
-
 
 const User = model("User", userSchema);
 

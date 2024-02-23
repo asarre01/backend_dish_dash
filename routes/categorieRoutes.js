@@ -9,6 +9,7 @@ const {
     editCategorie,
     deleteCategorie,
 } = require("../controllers/categorieController");
+const { uploadImgCat } = require("../controllers/imageController");
 
 // Importer le middleware pour vérifier si l'utilisateur est un administrateur
 const isAdminMiddleware = require("../middlewares/adminMiddleware");
@@ -26,7 +27,7 @@ router.post("/add", isAdminMiddleware, addCategorie);
 router.put("/edit/:id", isAdminMiddleware, editCategorie);
 
 // Route DELETE pour supprimer une catégorie (accessible uniquement aux administrateurs)
-router.delete("/delete/:id", isAdminMiddleware, deleteCategorie);
+router.delete("/delete/:id", isAdminMiddleware, uploadImgCat ,deleteCategorie);
 
 // Exporter le module Router avec les routes définies
 module.exports = router;

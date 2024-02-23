@@ -15,6 +15,11 @@ const categorieSchema = new Schema({
         type: String,
         required: true,
     },
+
+    cheminCat : {
+        type : String,
+        required: true,
+    }
 });
 
 // Créer le modèle de la catégorie à partir du schéma

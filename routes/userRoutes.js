@@ -2,9 +2,14 @@ const router = require("express").Router();
 const User = require("../models/User");
 const { register, login, logout } = require("../controllers/auth");
 const { verifyToken } = require("../middlewares/authMiddlewares");
-const { editUser, getAll } = require("../controllers/userController");
+const fs = require("fs-extra");
+const {
+    editUser,
+    getAll,
+    deleteUser,
+} = require("../controllers/userController");
 const isAdminMiddleware = require("../middlewares/adminMiddleware");
-const {uploadAvatar}  = require("../controllers/imageController.js");
+const { uploadAvatar } = require("../controllers/imageController.js");
 
 // Route POST pour l'ajout d'un nouvel utilisateur
 router.post("/add", uploadAvatar, register);
@@ -18,6 +23,8 @@ router.post("/login", login);
 router.post("/logout", verifyToken, logout);
 
 router.put("/edit/:id", verifyToken, editUser);
+
+router.delete("/delete/:id", verifyToken, deleteUser);
 
 // Exporter le routeur pour le rendre disponible pour d'autres fichiers
 module.exports = router;
