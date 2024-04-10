@@ -27,7 +27,7 @@ router.post("/add", isAdminMiddleware, addCategorie);
 router.put("/edit/:id", isAdminMiddleware, editCategorie);
 
 // Route DELETE pour supprimer une catégorie (accessible uniquement aux administrateurs)
-router.delete("/delete/:id", isAdminMiddleware, uploadImgCat ,deleteCategorie);
+router.delete("/delete/:id", isAdminMiddleware, uploadImgCat, deleteCategorie);
 
 // Exporter le module Router avec les routes définies
 module.exports = router;

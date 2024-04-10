@@ -75,11 +75,13 @@ const login = async (req, res) => {
 
         // Répondre avec un code 200 (OK) et un message de connexion réussie
         return res.status(200).json({
-            _id: userLogin._id,
-            prenom: userLogin.prenom,
-            nom: userLogin.nom,
-            tel: userLogin.tel,
-            email: userLogin.email,
+            profil: {
+                _id: userLogin._id,
+                prenom: userLogin.prenom,
+                nom: userLogin.nom,
+                tel: userLogin.tel,
+                email: userLogin.email
+            },
             isAdmin: userLogin.isAdmin,
             token: token,
         });
