@@ -7,13 +7,14 @@ exports.getAll = async (req, res) => {
         // Recherche de toutes les catégories dans la base de données
         const listCategories = await Categorie.find();
         
-        // Répondre avec les catégories récupérées en format JSON
-        res.json({ msg: `Données récupérées avec succès: ${listCategories}` });
+        // Répondre avec les catégories récupérées en format JSON et le statut 200 (OK)
+        res.status(200).json(listCategories);
     } catch (error) {
         // En cas d'erreur, répondre avec un code 500 (Erreur serveur) et un message d'erreur
         res.status(500).json({ message: error.message });
     }
 };
+
 
 // Fonction pour récupérer une catégorie spécifique par son identifiant
 exports.getOne = async (req, res) => {
@@ -40,6 +41,14 @@ exports.getOne = async (req, res) => {
 // Fonction pour ajouter une nouvelle catégorie
 exports.addCategorie = async (req, res) => {
     try {
+        // Vérifier si une catégorie avec le même nom existe déjà
+        const existingCategorie = await Categorie.findOne({ nom: req.body.nom });
+
+        // Si une catégorie avec le même nom existe déjà, renvoyer une erreur
+        if (existingCategorie) {
+            return res.status(400).json({ message: "Une catégorie avec ce nom existe déjà" });
+        }
+
         // Créer une nouvelle instance de catégorie avec les données du corps de la requête
         const addCategorieData = new Categorie(req.body);
 
@@ -48,7 +57,7 @@ exports.addCategorie = async (req, res) => {
 
         // Afficher un message de succès et répondre avec la catégorie ajoutée en format JSON
         console.log("Catégorie enregistrée avec succès :", addCategorieData);
-        res.status(201).json(addCategorie);
+        res.status(201).json({ message: "Catégorie ajoutée avec succés !" });
     } catch (error) {
         // En cas d'erreur, répondre avec un code 500 (Erreur serveur) et un message d'erreur
         res.status(500).json({ message: error.message });

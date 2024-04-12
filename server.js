@@ -52,5 +52,5 @@ mongoose
 
 // Routes
 server.use("/users", userRoutes);
-server.use("/categories", verifyToken, categorieRoutes);
+server.use("/categories", categorieRoutes);
 server.use("/plats", verifyToken, platRoutes);

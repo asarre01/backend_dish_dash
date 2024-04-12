@@ -80,7 +80,7 @@ const login = async (req, res) => {
                 prenom: userLogin.prenom,
                 nom: userLogin.nom,
                 tel: userLogin.tel,
-                email: userLogin.email
+                email: userLogin.email,
             },
             isAdmin: userLogin.isAdmin,
             token: token,
