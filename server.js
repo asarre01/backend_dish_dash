@@ -8,6 +8,7 @@ const cors = require("cors");
 const categorieRoutes = require("./routes/categorieRoutes");
 const userRoutes = require("./routes/userRoutes");
 const platRoutes = require("./routes/platRoutes");
+const commandeRoutes = require("./routes/commandRoutes")
 const { verifyToken } = require("./middlewares/authMiddlewares");
 
 // Charger les variables d'environnement depuis le fichier .env dans le dossier config
@@ -24,12 +25,12 @@ server.use(express.urlencoded({ extended: true }));
 const corsOptions = {
     origin: process.env.CLIENT_URL,
     credentials: true,
-    'allowedHeaders': ['sessionId', 'Content-Type', 'Authorization'],
-    'exposedHeaders': ['sessionId'],
-    'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    'preflightContinue': false
-}
-server.use(cors(corsOptions)); 
+    allowedHeaders: ["sessionId", "Content-Type", "Authorization"],
+    exposedHeaders: ["sessionId"],
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+};
+server.use(cors(corsOptions));
 
 // Se connecter à la base de données en utilisant mongoose
 mongoose
@@ -53,4 +54,5 @@ mongoose
 // Routes
 server.use("/users", userRoutes);
 server.use("/categories", categorieRoutes);
-server.use("/plats", verifyToken, platRoutes);
+server.use("/plats", platRoutes);
+server.use("/commandes", commandeRoutes)

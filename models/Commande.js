@@ -3,24 +3,27 @@ const { Schema, model } = mongoose;
 
 const commandeSchema = new Schema(
     {
-        userId: {
-            type: Schema.Types.ObjectId,
-            ref: "User",
+        nom: {
+            type: String,
             required: true,
         },
-        items: [
-            {
-                platId: {
-                    type: Schema.Types.ObjectId,
-                    ref: "Plat",
-                    required: true,
-                },
-                quantity: {
-                    type: Number,
-                    required: true,
-                },
-            },
-        ],
+        prenom: {
+            type: String,
+            required: true,
+        },
+        tel: {
+            type: String,
+            required: true,
+        },
+        table: {
+            type: String,
+            required: true,
+            default: "1",
+        },
+        items: {
+            type: Array,
+            required: true,
+        },
         status: {
             type: Boolean,
             default: false,
@@ -29,9 +32,9 @@ const commandeSchema = new Schema(
             type: Boolean,
             default: false,
         },
-    },
+    }, 
     {
-        timestamps: true, 
+        timestamps: true,
     }
 );
 

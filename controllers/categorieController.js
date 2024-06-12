@@ -6,7 +6,7 @@ exports.getAll = async (req, res) => {
     try {
         // Recherche de toutes les catégories dans la base de données
         const listCategories = await Categorie.find();
-        
+
         // Répondre avec les catégories récupérées en format JSON et le statut 200 (OK)
         res.status(200).json(listCategories);
     } catch (error) {
@@ -14,7 +14,6 @@ exports.getAll = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 
 // Fonction pour récupérer une catégorie spécifique par son identifiant
 exports.getOne = async (req, res) => {
@@ -42,11 +41,15 @@ exports.getOne = async (req, res) => {
 exports.addCategorie = async (req, res) => {
     try {
         // Vérifier si une catégorie avec le même nom existe déjà
-        const existingCategorie = await Categorie.findOne({ nom: req.body.nom });
+        const existingCategorie = await Categorie.findOne({
+            nom: req.body.nom,
+        });
 
         // Si une catégorie avec le même nom existe déjà, renvoyer une erreur
         if (existingCategorie) {
-            return res.status(400).json({ message: "Une catégorie avec ce nom existe déjà" });
+            return res
+                .status(400)
+                .json({ message: "Une catégorie avec ce nom existe déjà" });
         }
 
         // Créer une nouvelle instance de catégorie avec les données du corps de la requête

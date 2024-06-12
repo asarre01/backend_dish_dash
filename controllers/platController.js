@@ -1,31 +1,36 @@
 const Plat = require("../models/Plat");
+const Categorie = require("../models/Categorie");
 const fs = require("fs-extra");
 
 exports.getAll = async (req, res) => {
     try {
         const listPlats = await Plat.find();
-        res.json({ msg: `Données récupérées avec succès: ${listPlats}` });
+        res.status(200).json(listPlats);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
 
-// Fonction pour récupérer une catégorie spécifique par son identifiant
-exports.getOne = async (req, res) => {
+exports.getPlatsByCategorie = async (req, res) => {
     try {
         // Récupérer l'identifiant de la catégorie depuis les paramètres de la requête
-        const platId = req.params.id;
+        const categorieId = req.params.categorieId;
 
-        // Recherche de la catégorie dans la base de données par son identifiant
-        const plat = await Categorie.findById(platId);
+        // Rechercher la catégorie dans la base de données par son identifiant
+        const categorie = await Categorie.findById(categorieId);
 
-        // Vérifier si la catégorie a été trouvée
-        if (!plat) {
-            return res.status(404).json({ msg: "Catégorie introuvable" });
+        // Vérifier si la catégorie existe
+        if (!categorie) {
+            return res.status(404).json({ message: "Catégorie introuvable" });
         }
 
-        // Répondre avec la catégorie récupérée en format JSON
-        res.json({ msg: `Catégorie récupérée avec succès: ${plat}` });
+        // Récupérer tous les plats appartenant à cette catégorie en utilisant populate
+        const plats = await Plat.find({ categorieId: categorieId }).populate({
+            path: "categorieId",
+        });
+
+        // Répondre avec les plats et les informations de la catégorie en format JSON
+        res.status(200).json(plats);
     } catch (error) {
         // En cas d'erreur, répondre avec un code 500 (Erreur serveur) et un message d'erreur
         res.status(500).json({ message: error.message });
@@ -44,8 +49,7 @@ exports.addPlat = async (req, res) => {
         });
         const addPlat = await addPlatData.save();
 
-        console.log("Plat enregistré avec succès :", addPlat);
-        res.status(201).json(addPlat);
+        res.status(201).json({ message: "Plat ajouté avec succés" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -87,7 +91,6 @@ exports.deletePlat = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 
 const deleteImage = async (id) => {
     try {
